@@ -17,7 +17,15 @@ android {
     }
 
     buildTypes {
+        def JSONPLACEHOLDER_URL = "JSONPLACEHOLDER_URL"
+
+        debug {
+            buildConfigField("String", JSONPLACEHOLDER_URL, "\"https://jsonplaceholder.typicode.com/\"")
+        }
+
         release {
+            buildConfigField("String", JSONPLACEHOLDER_URL, "\"https://jsonplaceholder.typicode.com/\"")
+
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }

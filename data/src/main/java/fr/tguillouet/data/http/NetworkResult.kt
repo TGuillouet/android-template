@@ -1,6 +1,8 @@
 package fr.tguillouet.data.http
 
+import android.util.Log
 import fr.tguillouet.data.common.DomainMapper
+import fr.tguillouet.domain.models.Error
 import fr.tguillouet.domain.models.Failure
 import fr.tguillouet.domain.models.HttpError
 import fr.tguillouet.domain.models.Result
@@ -42,6 +44,16 @@ inline fun <T : DomainMapper<R>, R : Any> Response<T>.getData(
 fun <T : DomainMapper<R>, R : Any> Response<T>.getData(): Result<R> {
     try {
         onSuccess { return Success(it.mapToDomainModel()) }
+        onFailure { return Failure(it) }
+        return Failure(HttpError(Throwable(GENERAL_NETWORK_ERROR)))
+    } catch (e: IOException) {
+        return Failure(HttpError(Throwable(GENERAL_NETWORK_ERROR)))
+    }
+}
+
+fun <T : List<DomainMapper<R>>, R : Any> Response<T>.getListData(): Result<List<R>> {
+    try {
+        onSuccess { return Success(it.map { entity -> entity.mapToDomainModel() }) }
         onFailure { return Failure(it) }
         return Failure(HttpError(Throwable(GENERAL_NETWORK_ERROR)))
     } catch (e: IOException) {

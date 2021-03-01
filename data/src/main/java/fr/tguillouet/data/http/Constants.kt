@@ -1,3 +1,4 @@
 package fr.tguillouet.data.http
 
 val GENERAL_NETWORK_ERROR = "GENERAL_NETWORK_ERROR"
+val INVALID_LIST = "INVALID_LIST"

@@ -11,7 +11,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 @KoinApiExtension
-abstract class BaseViewModel<T : Any, E> : ViewModel(), KoinComponent {
+abstract class BaseViewModel<T : Any> : ViewModel(), KoinComponent {
 
     protected val coroutineContext: CoroutineContextProvider by inject()
     private val connectivity: Connectivity by inject()
@@ -20,12 +20,8 @@ abstract class BaseViewModel<T : Any, E> : ViewModel(), KoinComponent {
     val viewState: LiveData<ViewState<T>>
         get() = _viewState
 
-    protected val _viewEffects = MutableLiveData<E>()
-    val viewEffects: LiveData<E>
-        get() = _viewEffects
-
     protected fun executeUseCase(action: suspend () -> Unit, noInternetAction: () -> Unit) {
-        _viewState.value = Loading()
+        _viewState.value = ViewState.Loading()
         if (connectivity.hasNetworkAccess()) {
             launch { action() }
         } else {
@@ -34,7 +30,7 @@ abstract class BaseViewModel<T : Any, E> : ViewModel(), KoinComponent {
     }
 
     protected fun executeUseCase(action: suspend () -> Unit) {
-        _viewState.value = Loading()
+        _viewState.value = ViewState.Loading()
         launch { action() }
     }
 

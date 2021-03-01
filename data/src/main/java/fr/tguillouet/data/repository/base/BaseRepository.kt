@@ -1,4 +1,4 @@
-package fr.tguillouet.data.repository
+package fr.tguillouet.data.repository.base
 
 import fr.tguillouet.data.common.DomainMapper
 import fr.tguillouet.data.common.coroutine.CoroutineContextProvider
